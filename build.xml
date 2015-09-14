@@ -1,0 +1,36 @@
+<?xml version = "1.0"?>
+<project name = "MyProject" default = "compile">
+
+ <property name = "src.dir" value = "src"/>
+ <property name = "test.dir" value = "test"/>
+ <property name = "lib.dir" value = "lib"/>
+ <property name = "target.dir" value = "target"/>
+ <property name = "build.dir" value = "build"/>
+
+ <target name ="clean">
+   <delete dir = "build/classes"/>
+   <delete dir="target"/>
+ </target>
+
+ <target name = "init" depends = "clean">
+  <mkdir dir = "build/classes"/>
+  <mkdir dir = "target"/>
+ </target>
+
+ <target name = "compile" depends = "init" description = "Compile java files">
+  <javac includeantruntime="false" srcdir = "src" destdir = "build/classes"/>
+ </target>
+
+ <target name = "package" description = "Create a jar file">
+  <jar destfile = "${target.dir}/MyProject.jar" basedir = "build/classes">
+     <manifest>
+       <attribute name = "Main-Class" value = "src/com/clouway/MyClass.java"/>
+     </manifest>
+  </jar>
+ </target>
+
+  <target name="run" depends="compile">
+    <java classname="com.clouway.MyClass" classpath="build/classes" />
+  </target>
+
+</project>
