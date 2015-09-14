@@ -1,36 +1,57 @@
 <?xml version = "1.0"?>
-<project name = "MyProject" default = "compile">
+<project name="MyProject" default="package">
 
- <property name = "src.dir" value = "src"/>
- <property name = "test.dir" value = "test"/>
- <property name = "lib.dir" value = "lib"/>
- <property name = "target.dir" value = "target"/>
- <property name = "build.dir" value = "build"/>
+  <property name="src.dir" value="src"/>
+  <property name="test.dir" value="test"/>
+  <property name="lib.dir" value="lib"/>
+  <property name="target" value="target"/>
+  <property name="build" value="build"/>
 
- <target name ="clean">
-   <delete dir = "build/classes"/>
-   <delete dir="target"/>
- </target>
+  <path id="master-path">
+    <fileset dir="${lib.dir}"/>
+    <pathelement path="${build}"/>
+  </path>
 
- <target name = "init" depends = "clean">
-  <mkdir dir = "build/classes"/>
-  <mkdir dir = "target"/>
- </target>
+  <target name="compile" description="Compile .java files" depends="init">
+    <copy file="src/log4j.properties" todir="build"/>
+    <javac destdir="${build}" includeantruntime="false">
+      <src path="${src.dir}"/>
+      <classpath refid="master-path"/>
+    </javac>
+  </target>
 
- <target name = "compile" depends = "init" description = "Compile java files">
-  <javac includeantruntime="false" srcdir = "src" destdir = "build/classes"/>
- </target>
+  <target name="clean">
+    <delete dir="build"/>
+    <delete dir="target"/>
+  </target>
 
- <target name = "package" description = "Create a jar file">
-  <jar destfile = "${target.dir}/MyProject.jar" basedir = "build/classes">
-     <manifest>
-       <attribute name = "Main-Class" value = "src/com/clouway/MyClass.java"/>
-     </manifest>
-  </jar>
- </target>
+  <target name="init" depends="clean">
+    <mkdir dir="build"/>
+    <mkdir dir="target"/>
+  </target>
+
+  <target name="package" description="Create a jar file" depends="compile">
+    <taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${lib.dir}/jarjar-1.4.jar"/>
+    <jarjar jarfile="${target}/MyJarJar.jar">
+      <fileset dir="${build}"/>
+      <zipfileset src="${lib.dir}/log4j.jar"/>
+      <zipfileset src="${lib.dir}/apache-ant-1.9.6-bin.zip"/>
+      <manifest>
+        <attribute name="Main-Class" value="com.clouway.MyClass"/>
+      </manifest>
+    </jarjar>
+  </target>
+<!--
+  <target name = "jar" description = "Create a jar file">
+    <jar destfile = "${target}/MyProject.jar" basedir = "build">
+      <manifest>
+        <attribute name = "Main-Class" value = "src.com.clouway.MyClass"/>
+      </manifest>
+    </jar>
+  </target>-->
 
   <target name="run" depends="compile">
-    <java classname="com.clouway.MyClass" classpath="build/classes" />
+    <java classname="com.clouway.MyClass" classpath="build"/>
   </target>
 
 </project>
