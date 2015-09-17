@@ -7,6 +7,7 @@
   <property name="target" value="target"/>
   <property name="build" value="build"/>
 
+
   <path id="master-path">
     <fileset dir="${lib.dir}"/>
     <pathelement path="${build}"/>
@@ -27,10 +28,10 @@
 
   <target name="init" depends="clean">
     <mkdir dir="build"/>
-    <mkdir dir="target"/>
+    <mkdir dir="target/lib"/>
   </target>
 
-  <target name="package" description="Create a jar file" depends="compile">
+  <target name="jarjar" description="Create a jar file" depends="compile">
     <taskdef name="jarjar" classname="com.tonicsystems.jarjar.JarJarTask" classpath="${lib.dir}/jarjar-1.4.jar"/>
     <jarjar jarfile="${target}/MyJarJar.jar">
       <fileset dir="${build}"/>
@@ -41,14 +42,21 @@
       </manifest>
     </jarjar>
   </target>
-<!--
-  <target name = "jar" description = "Create a jar file">
-    <jar destfile = "${target}/MyProject.jar" basedir = "build">
+
+  <target name = "copylib" depends = "jarjar">
+    <copy todir="target/lib">
+      <fileset file="${lib.dir}/log4j.jar"/>
+    </copy>
+  </target>
+
+
+  <target name = "package" description = "Create a jar file" depends="copylib">
+    <jar destfile = "target/MyProject.jar" basedir = "build">
       <manifest>
         <attribute name = "Main-Class" value = "src.com.clouway.MyClass"/>
       </manifest>
     </jar>
-  </target>-->
+  </target>
 
   <target name="run" depends="compile">
     <java classname="com.clouway.MyClass" classpath="build"/>
