@@ -10,15 +10,6 @@
     <orderEntry type="module-library" exported="">
       <library>
         <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/log4j.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
           <root url="jar://$MODULE_DIR$/lib/jarjar-1.4.jar!/" />
         </CLASSES>
         <JAVADOC />
@@ -26,6 +17,7 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="jarjar-1.4" level="project" />
+    <orderEntry type="library" name="log4j" level="project" />
   </component>
 </module>
 

@@ -53,7 +53,8 @@
   <target name = "package" description = "Create a jar file" depends="copylib">
     <jar destfile = "target/MyProject.jar" basedir = "build">
       <manifest>
-        <attribute name = "Main-Class" value = "src.com.clouway.MyClass"/>
+        <attribute name = "Main-Class" value = "com.clouway.MyClass"/>
+        <attribute name = "Class-Path" value = "lib/log4j.jar"/>
       </manifest>
     </jar>
   </target>
