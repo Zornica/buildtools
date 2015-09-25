@@ -36,7 +36,6 @@
     <jarjar jarfile="${target}/MyJarJar.jar">
       <fileset dir="${build}"/>
       <zipfileset src="${lib.dir}/log4j.jar"/>
-      <zipfileset src="${lib.dir}/apache-ant-1.9.6-bin.zip"/>
       <manifest>
         <attribute name="Main-Class" value="com.clouway.MyClass"/>
       </manifest>
