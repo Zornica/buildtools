@@ -1,6 +1,6 @@
 .idea/vcs.xml
 .idea/workspace.xml
+build
 out
 target
-build
 myProjectLog.file
